@@ -1,16 +1,31 @@
 new Card
 
+let block = false
+const TIMEOUT = 250
+
 document.onkeydown = checkKey
 
 function checkKey(key) {
-  // e = e || window.event
+  if (block) {return}
   key.keyCode == "38" && up()
   key.keyCode == "40" && bottom()
   key.keyCode == "37" && left()
   key.keyCode == "39" && right()
 }
 
-function left() {
+function clearStack() {
+  matrix.forEach(row => {
+    row.forEach(cell => {
+      if (cell) {
+        cell.isBlocked = false
+        cell.isBlockedForOther = false
+      }
+    })
+  })
+}
+
+async function left() {
+  block = true
   let isMoved = false
   for (let row = 0; row < 4; row++) {
     for (let col = 0; col < 4; col++) {
@@ -20,10 +35,18 @@ function left() {
         }
     }
   }
-  isMoved && new Card
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      isMoved && new Card
+      clearStack()
+      resolve()
+    }, TIMEOUT)
+  })
+  block = false
 }
 
-function right() {
+async function right() {
+  block = true
   let isMoved = false
   for (let row = 3; row > -1; row--) {
     for (let col = 3; col > -1; col--) {
@@ -33,10 +56,18 @@ function right() {
       }
     }
   }
-  isMoved && new Card
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      isMoved && new Card
+      clearStack()
+      resolve()
+    }, TIMEOUT)
+  })
+  block = false
 }
 
-function up() {
+async function up() {
+  block = true
   let isMoved = false
   for (let col = 3; col > -1; col--) {
     for (let row = 0; row < 4; row++) {
@@ -46,10 +77,18 @@ function up() {
       }
     }
   }
-  isMoved && new Card
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      isMoved && new Card
+      clearStack()
+      resolve()
+    }, TIMEOUT)
+  })
+  block = false
 }
 
-function bottom() {
+async function bottom() {
+  block = true
   let isMoved = false
   for (let col = 0; col < 4; col++) {
     for (let row = 3; row > -1; row--) {
@@ -59,5 +98,12 @@ function bottom() {
       }
     }
   }
-  isMoved && new Card
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      isMoved && new Card
+      clearStack()
+      resolve()
+    }, TIMEOUT)
+  })
+  block = false
 }
