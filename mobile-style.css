@@ -5,12 +5,13 @@
 }
 
 body {
+  overflow: hidden;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   align-content: center;
-  height: 100vh;
+  height: 90vh;
   margin: 0;
   background-color: #111;
   font-family: 'Roboto', sans-serif;
