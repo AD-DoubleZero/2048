@@ -66,11 +66,12 @@ class Card {
   }
 
   destroy(card) {
-    $deadcells.append(card.element)
-    setTimeout(()=> {card.element.classList.add("small")}, 50)
+    let element = card.element
+    card = undefined
+    $deadcells.append(element)
+    setTimeout(()=> {element.classList.add("small")}, 50)
     setTimeout(()=>{
       $deadcells.innerHTML = ""
-      card = undefined
     },250)
   }
 
@@ -118,90 +119,61 @@ class Card {
     return false
   }
 
-  leftMove() {
-    const position = this.parent.dataset.horisontal
-    if (position === "1") {return false}
+  move(direction) {
     let newPlace
+    let position
+    if (direction === "top" || direction === "bottom") {
+      position = this.parent.parentNode.dataset.vertical
+    }
+    if (direction === "left" || direction === "right") {
+      position = this.parent.dataset.horisontal
+    }
+    if (direction === "top" || direction === "left") {
+      if (position === "1") {return false}
+    }
+    if (direction === "bottom" || direction === "right") {
+      if (position === "4") {return false}
+    }
+    
+    const nextCheck = i => {
+      if (direction === "left" || direction === "right") {
+        const candidate = this.parent.parentNode.querySelector(`[data-horisontal="${i}"]`)
+        if (candidate.innerHTML.trim().length == 0) {newPlace = candidate;} 
+        else if (this.isBlocked || matrix[this.parent.parentNode.dataset.vertical-1][i-1].isBlockedForOther) {return 1}
+        if (this.stack(i)) {
+          newPlace = candidate
+        }
+      }
+
+      if (direction === "top" || direction === "bottom") {
+        const candidate = document
+          .querySelector(`[data-vertical="${i}"]`)
+          .querySelector(`[data-horisontal="${this.parent.dataset.horisontal}"]`)
+        if (candidate.innerHTML.trim().length == 0) {newPlace = candidate}
+        else if (this.isBlocked || matrix[i-1][this.parent.dataset.horisontal-1].isBlockedForOther) {return 1}
+        if (this.stack(i, true)) {
+          newPlace = candidate
+        }
+      }
+      // return true
+    }
+    if (direction === "top" || direction === "left") {
       for (let i = position - 1; i > 0; i--) {
-      const candidate = this.parent.parentNode.querySelector(`[data-horisontal="${i}"]`)
-      if (candidate.innerHTML.trim().length == 0) {newPlace = candidate;} 
-      else if (this.isBlocked || matrix[this.parent.parentNode.dataset.vertical-1][i-1].isBlockedForOther) {break}
-      if (this.stack(i)) {
-        newPlace = candidate
+        if (nextCheck(i) === 1) {break}
       }
     }
-    if (newPlace) {
+    if (direction === "bottom" || direction === "right") {
+      for (let i = +position + 1; i < 5; i++) {
+        if (nextCheck(i) === 1) {break}
+      }
+    }
+    if (newPlace) { //из-за этого ломается проверка двигались кубики или нет
       this.removeFromMatrix()
       this.updateMatrix(newPlace)
-      this.resize()
+      setTimeout(()=> {this.resize()}, 50)
       return true
     } else {return false}
   }
-
-  rightMove() {
-    const position = this.parent.dataset.horisontal
-    if (position === "4") {return false}
-    let newPlace
-    for (let i = +position + 1; i < 5; i++) {
-    const candidate = this.parent.parentNode.querySelector(`[data-horisontal="${i}"]`)
-      if (candidate.innerHTML.trim().length == 0) {newPlace = candidate}
-      else if (this.isBlocked || matrix[this.parent.parentNode.dataset.vertical-1][i-1].isBlockedForOther) {break}
-      if (this.stack(i)) {
-        newPlace = candidate
-      }
-    }
-    if (newPlace) {
-      this.removeFromMatrix()
-      this.updateMatrix(newPlace)
-      this.resize()
-      return true
-    } else {return false}
-  }
-
-  topMove() {
-    const position = this.parent.parentNode.dataset.vertical
-    if (position === "1") {return false}
-    let newPlace
-    for (let i = position - 1; i > 0; i--) {
-      const candidate = document
-        .querySelector(`[data-vertical="${i}"]`)
-        .querySelector(`[data-horisontal="${this.parent.dataset.horisontal}"]`)
-      if (candidate.innerHTML.trim().length == 0) {newPlace = candidate}
-      else if (this.isBlocked || matrix[i-1][this.parent.dataset.horisontal-1].isBlockedForOther) {break}
-      if (this.stack(i, true)) {
-        newPlace = candidate
-      }
-    }
-    if (newPlace) {
-      this.removeFromMatrix()
-      this.updateMatrix(newPlace)
-      this.resize()
-      return true
-    } else {return false}
-  }
-
-  bottomMove() {
-    const position = this.parent.parentNode.dataset.vertical
-    if (position === "4") {return false}
-    let newPlace
-    for (let i = +position + 1; i < 5; i++) {
-      const candidate = document
-        .querySelector(`[data-vertical="${i}"]`)
-        .querySelector(`[data-horisontal="${this.parent.dataset.horisontal}"]`)
-      if (candidate.innerHTML.trim().length == 0) {newPlace = candidate}
-      else if (this.isBlocked || matrix[i-1][this.parent.dataset.horisontal-1].isBlockedForOther) {break}
-      if (this.stack(i, true)) {
-        newPlace = candidate
-      }
-    }
-    if (newPlace) {
-      this.removeFromMatrix()
-      this.updateMatrix(newPlace)
-      this.resize()
-      return true
-    } else {return false}
-  }
-
 }
 
 window.addEventListener("resize", () => {
