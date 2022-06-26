@@ -9,6 +9,7 @@ console.log(VERSION);
 document.onkeydown = checkKey
 
 document.addEventListener('swiped', function(e) {
+  if (block) {return}
   moveAll(e.detail.dir)
 });
 
