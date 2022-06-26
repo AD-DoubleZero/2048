@@ -5,8 +5,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>2048 Game</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="cards.css">
+  <link href="style.css" rel="stylesheet" media="screen and (min-width: 601px)">
+  <link href="mobile-style.css" rel="stylesheet" media="screen and (max-width: 600px)">
+  <link href="cards.css" rel="stylesheet" media="screen and (min-width: 601px)">
+  <link href="mobile-cards.css" rel="stylesheet" media="screen and (max-width: 600px)">
 </head>
 <body id="body">
   <p class="score">SCORE: <span id="score">0</span></p>
@@ -43,7 +45,7 @@
 </body>
 
 
-
+<script src="swiped-events.min.js"></script>
 <script src="matrix.js"></script>
 <script src="freeCells.js"></script>
 <script src="cardClass.js"></script>

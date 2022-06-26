@@ -124,16 +124,16 @@ class Card {
   move(direction) {
     let newPlace
     let position
-    if (direction === "top" || direction === "bottom") {
+    if (direction === "up" || direction === "down") {
       position = this.parent.parentNode.dataset.vertical
     }
     if (direction === "left" || direction === "right") {
       position = this.parent.dataset.horisontal
     }
-    if (direction === "top" || direction === "left") {
+    if (direction === "up" || direction === "left") {
       if (position === "1") {return false}
     }
-    if (direction === "bottom" || direction === "right") {
+    if (direction === "down" || direction === "right") {
       if (position === "4") {return false}
     }
     
@@ -147,7 +147,7 @@ class Card {
         }
       }
 
-      if (direction === "top" || direction === "bottom") {
+      if (direction === "up" || direction === "down") {
         const candidate = document
           .querySelector(`[data-vertical="${i}"]`)
           .querySelector(`[data-horisontal="${this.parent.dataset.horisontal}"]`)
@@ -159,12 +159,12 @@ class Card {
       }
       // return true
     }
-    if (direction === "top" || direction === "left") {
+    if (direction === "up" || direction === "left") {
       for (let i = position - 1; i > 0; i--) {
         if (nextCheck(i) === 1) {break}
       }
     }
-    if (direction === "bottom" || direction === "right") {
+    if (direction === "down" || direction === "right") {
       for (let i = +position + 1; i < 5; i++) {
         if (nextCheck(i) === 1) {break}
       }

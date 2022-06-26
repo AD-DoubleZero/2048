@@ -8,10 +8,14 @@ console.log(VERSION);
 
 document.onkeydown = checkKey
 
+document.addEventListener('swiped', function(e) {
+  moveAll(e.detail.dir)
+});
+
 function checkKey(key) {
   if (block) {return}
-  key.keyCode == "38" && moveAll("top")
-  key.keyCode == "40" && moveAll("bottom")
+  key.keyCode == "38" && moveAll("up")
+  key.keyCode == "40" && moveAll("down")
   key.keyCode == "37" && moveAll("left")
   key.keyCode == "39" && moveAll("right")
 }
@@ -50,7 +54,7 @@ async function moveAll(direction) {
       }
     }
   }
-  if (direction === "top") {
+  if (direction === "up") {
     for (let col = 3; col > -1; col--) {
       for (let row = 0; row < 4; row++) {
       if (matrix[row][col]) {
@@ -60,7 +64,7 @@ async function moveAll(direction) {
       }
     }
   }
-  if (direction === "bottom") {
+  if (direction === "down") {
     for (let col = 0; col < 4; col++) {
       for (let row = 3; row > -1; row--) {
         if (matrix[row][col]) {
