@@ -41,7 +41,7 @@
 }
 .c1024 {
   background-color: #6C006C;
-  font-size: 10vw;
+  font-size: 9.5vw;
   color: #FFF0F5;
   z-index: 19;
 }
@@ -50,10 +50,10 @@
   z-index: 20;
 }
 .c2048, .c4096, .c8192 {
-  font-size: 9vw;
+  font-size: 8.5vw;
   color: #FFF0F5;
 }
 .c16384, .c32768, .c65536 {
-  font-size: 9vw;
+  font-size: 8.5vw;
   color: #FFF0F5;
 }
