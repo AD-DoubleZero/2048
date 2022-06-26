@@ -15,7 +15,7 @@ body {
   background-color: #111;
   font-family: 'Roboto', sans-serif;
   position: relative;
-
+  user-select: none;
 }
 
 .row {
@@ -29,9 +29,17 @@ body {
   font-size: 5vh;
   margin: 0;
   transition: transform 100ms linear,
+              text-shadow 100ms linear,
               color 1s linear;
   transform: translate(0,0);
 }
+#score {
+  transition: color 200ms linear;
+}
+#score.glow {
+  color: #FFF0F5;
+}
+
 
 .cell {
   background-color: inherit;

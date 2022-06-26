@@ -1,5 +1,6 @@
 const $deadcells = document.querySelector("#dead-cells")
 const $score = document.querySelector("#score")
+const $cellsBorder = document.querySelectorAll(".cell")
 const colors = ["#996AD6","#D25FD2", "#A600A6", "#6C006C"]
 const winCards = []
 let isWinning = false
@@ -41,11 +42,12 @@ class Card {
   score(points) {
     score += points
     const anim = points * 0.005
+    setTimeout(()=> {$score.classList.add("glow")}, 50)
+    setTimeout(()=> {$score.classList.remove("glow")}, 250)
     setTimeout(()=> {$score.parentNode.style.transform = `translate(${anim}px,${anim}px)`}, 50)
     setTimeout(()=> {$score.parentNode.style.transform = `translate(-${anim}px,-${anim}px)`}, 150)
     setTimeout(()=> {$score.parentNode.style.transform = `translate(0,0)`}, 250)
     $score.innerHTML = score
-
   }
 
   win() {
